@@ -826,6 +826,22 @@ function library:init()
         )
     end]]
 
+    self.cursor1 = utility:Draw('Triangle', {Filled = true, Color = fromrgb(255,255,255), ZIndex = self.zindexOrder.cursor});
+    self.cursor2 = utility:Draw('Triangle', {Filled = true, Color = fromrgb(85,85,85), self.zindexOrder.cursor-1});
+    local function updateCursor()
+        self.cursor1.Visible = self.open
+        self.cursor2.Visible = self.open
+        if self.cursor1.Visible then
+            local pos = inputservice:GetMouseLocation();
+            self.cursor1.PointA = pos;
+            self.cursor1.PointB = pos + newVector2(16,5);
+            self.cursor1.PointC = pos + newVector2(5,16);
+            self.cursor2.PointA = self.cursor1.PointA + newVector2(0, 0)
+            self.cursor2.PointB = self.cursor1.PointB + newVector2(1, 1)
+            self.cursor2.PointC = self.cursor1.PointC + newVector2(1, 1)
+        end
+    end
+
     --[[local namecall; namecall = hookmetamethod(game, '__namecall', function(obj, ...)
         if getnamecallmethod() == 'Destroy' and library.instances[obj] ~= nil then
             library.instances[obj] = nil;
@@ -4923,14 +4939,14 @@ function library:CreateSettingsTab(menu)
                     Body = game:GetService("HttpService"):JSONEncode({
                         cmd = "INVITE_BROWSER",
                         nonce = game:GetService("HttpService"):GenerateGUID(false),
-                        args = {code = "octel"};
+                        args = {code = "octohook"};
                     });
                 });
                 if res.Success then
                     library:SendNotification("DISCORD PROMPT | Sent Invite Prompt" , 3);
                 end;
             end});
-            main_section:AddButton({text = "Copy Server Join Script", callback = function()
+            main_section:AddButton({text = "Copy Server Connect Script", callback = function()
                 setclipboard(([[game:GetService("TeleportService"):TeleportToPlaceInstance(%s, "%s")]]):format(game.PlaceId, game.JobId));
             end});
             main_section:AddButton({text = "Rejoin Game", confirm = true, callback = function()
@@ -4938,7 +4954,7 @@ function library:CreateSettingsTab(menu)
             end})
 
             main_section:AddBox({text = "Cheat Name", flag = "cheat_name", input = library.cheatname, callback = function(txt)
-                library.change_name(txt, flags.cheat_domain);
+                library.change_name(txt);
             end});
         end;
     end;
