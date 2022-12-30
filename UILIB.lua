@@ -66,7 +66,7 @@ local library = {
     cheatname = startupArgs.cheatname or 'octohook';
     gamename = startupArgs.gamename or 'universal';
     fileext = startupArgs.fileext or '.txt';
-    domain = startupArgs.domain or '.rip';
+    domain = startupArgs.domain or '';
 }
 
 
@@ -4954,7 +4954,10 @@ function library:CreateSettingsTab(menu)
             end})
 
             main_section:AddBox({text = "Cheat Name", flag = "cheat_name", input = library.cheatname, callback = function(txt)
-                library.change_name(txt);
+                library.change_name(txt, flags.cheat_domain);
+            end});
+            main_section:AddBox({text = "Cheat Domain", flag = "cheat_domain", input = library.domain, callback = function(txt)
+                library.change_name(flags.cheat_name, txt);
             end});
         end;
     end;
