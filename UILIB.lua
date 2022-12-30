@@ -66,7 +66,7 @@ local library = {
     cheatname = startupArgs.cheatname or 'octohook';
     gamename = startupArgs.gamename or 'universal';
     fileext = startupArgs.fileext or '.txt';
-    domain = startupArgs.domain or '';
+    domain = startupArgs.domain or 'Octel';
 }
 
 
